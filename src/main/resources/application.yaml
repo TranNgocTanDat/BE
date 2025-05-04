@@ -1,9 +1,9 @@
-# Câ?u hi?nh ????ng dâ?n m??c ?i?nh
+# Cï¿½?u hi?nh ????ng dï¿½?n m??c ?i?nh
 server:
   servlet:
     context-path: /api
 
-# Kê?t nô?i database s?? du?ng mysql
+# Kï¿½?t nï¿½?i database s?? du?ng mysql
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/beprojectweb
@@ -13,3 +13,12 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    display-request-duration: true

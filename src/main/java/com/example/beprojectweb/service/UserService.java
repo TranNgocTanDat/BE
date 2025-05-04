@@ -4,6 +4,8 @@ import com.example.beprojectweb.dto.request.UserCreationRequest;
 import com.example.beprojectweb.dto.request.UserUpdateRequest;
 import com.example.beprojectweb.dto.response.UserResponse;
 import com.example.beprojectweb.entity.User;
+import com.example.beprojectweb.exception.AppException;
+import com.example.beprojectweb.exception.ErrorCode;
 import com.example.beprojectweb.mapper.UserMapper;
 import com.example.beprojectweb.repository.UserRepository;
 import lombok.AccessLevel;
@@ -22,7 +24,7 @@ public class UserService {
 
     public User createUser(UserCreationRequest request) {
         if (userRepository.existsUserByUsername(request.getUsername()))
-            throw new RuntimeException("user is exited");
+            throw new AppException(ErrorCode.USER_EXISTED);
 
         User user = userMapper.toUser(request);
         return userRepository.save(user);
