@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping
     APIResponse<List<UserResponse>> getUsers() {
-        return APIResponse.<List<UserResponse>>builder()
+        return APIResponse.<List<UserResponse>>builder()    
                 .result(userService.getUsers())
                 .build();
     }
@@ -47,8 +47,10 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    UserResponse updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
-        return userService.updateUser(userId, request);
+    APIResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
+        return APIResponse.<UserResponse>builder()
+                .result(userService.updateUser(userId, request))
+                .build();
     }
 
     @DeleteMapping("/{userId}")

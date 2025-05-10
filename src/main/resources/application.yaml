@@ -22,3 +22,6 @@ springdoc:
     operationsSorter: method
     tagsSorter: alpha
     display-request-duration: true
+## tạo
+jwt:
+  signerKey: "2p7zBc3MarCTlKhTx4PkPrFCVNiwJv9tPO0wR6iwZBK31mSBK23+V2CYDXqe8pJl"
