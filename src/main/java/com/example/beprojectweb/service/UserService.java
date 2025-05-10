@@ -4,6 +4,7 @@ import com.example.beprojectweb.dto.request.UserCreationRequest;
 import com.example.beprojectweb.dto.request.UserUpdateRequest;
 import com.example.beprojectweb.dto.response.UserResponse;
 import com.example.beprojectweb.entity.User;
+import com.example.beprojectweb.enums.Role;
 import com.example.beprojectweb.exception.AppException;
 import com.example.beprojectweb.exception.ErrorCode;
 import com.example.beprojectweb.mapper.UserMapper;
@@ -14,6 +15,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -30,6 +32,9 @@ public class UserService {
 
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.USER.name());
+        user.setRoles(roles);
         return userRepository.save(user);
     }
 

@@ -3,6 +3,8 @@ package com.example.beprojectweb.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,4 +17,6 @@ public class UserResponse {
     String firstName;
     String lastName;
     String dob;
+    Set<String> roles;
+
 }

@@ -20,11 +20,14 @@ import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.Date;
+import java.util.StringJoiner;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +43,7 @@ public class AuthenticationService {
     //check login
     public AuthenticationResponse authenticate(AuthenticationRequest request){
         //check user
-        var user = userRepository.findUsersByUsername(request.getUsername()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS));
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS));
 
         //sử dụng matches để kiểm tra pass nhập vào đúng với pass trong db
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
@@ -71,6 +74,9 @@ public class AuthenticationService {
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
+                //tạo 1 claim chứa scope nhận biết user or admin
+                //tạo 1 hàm build scope bên dưới
+                .claim("scope", buildScope(user))
                 .build();
 
         //Payload
@@ -109,5 +115,16 @@ public class AuthenticationService {
                 .valid(verifier && expityTime.after(new Date()))
                 .build();
 
+    }
+
+    //bui scope từ 1 user
+    private String buildScope(User user){
+        //scope đang là một 1 lisr , dùng StringJoiner để nối các scope bằng dấu " "
+        StringJoiner stringJoiner = new StringJoiner(" "); // Oauth2 quy định scope phân cách nhau bằng " "
+
+        //kiểm tra role
+        if(!CollectionUtils.isEmpty(user.getRoles()))
+            user.getRoles().forEach(stringJoiner::add);
+        return stringJoiner.toString();
     }
 }
