@@ -12,6 +12,7 @@ import com.example.beprojectweb.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +56,15 @@ public class UserService {
 
         userMapper.updateUser(user, request);
         return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    public UserResponse getMyInfo(){
+        //sau khi đăng nhập thành công thng tin được lưu trong SecurityContextHolder
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        User user = userRepository.findByUsername(name).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXISTS));
+        return userMapper.toUserResponse(user);
     }
 
     public void deleteUser(String userId){
