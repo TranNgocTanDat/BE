@@ -1,15 +1,19 @@
 package com.example.beprojectweb.dto.response.product;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import java.math.BigDecimal;
 
-import com.example.beprojectweb.entity.Category;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductResponse {
-    int product_ID;
-    Category category;
+    Long productId;
+    String categoryName;
     String productName;
     String description;
-    double price;
+    BigDecimal price;
     int stock;
     String img;
 

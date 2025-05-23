@@ -22,6 +22,7 @@ public class ProductController {
     public APIResponse<ProductResponse> createProduct(@RequestBody ProductRequest request){
         APIResponse apiResponse = new APIResponse<>();
         apiResponse.setResult(productService.createProduct(request));
+
         return apiResponse;
     }
 

@@ -14,14 +14,32 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tranngoctandat12@gmail.com
+    password: yzxkmtvqfmbeveye
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
-    operationsSorter: method
+    operationsSorter: method 
     tagsSorter: alpha
     display-request-duration: true
 ## tạo
 jwt:
   signerKey: "2p7zBc3MarCTlKhTx4PkPrFCVNiwJv9tPO0wR6iwZBK31mSBK23+V2CYDXqe8pJl"
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.http.converter.json: DEBUG
+

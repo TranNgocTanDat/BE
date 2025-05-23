@@ -8,7 +8,8 @@ public enum ErrorCode {
     PASSWORD_INVALID(1003, "Password must be at least 3 characters"),
     USER_NOT_EXISTS(1004, "User not existed"),
     UNATHENTICATIED(1005, "UNAUTHENTICATED"),
-    CATEGORY_EXISTED(1006, "CATEGORY EXISTED")
+    CATEGORY_EXISTED(1006, "CATEGORY EXISTED"),
+    EMAIL_INVALID(1007, "Email must be a valid Gmail address")
     ;
 
     private int code;

@@ -1,14 +1,16 @@
-package com.example.beprojectweb.dto.request;
+package com.example.beprojectweb.dto.request.cart;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationRequest {
-    String email;
-    String password;
+public class CartItemRequest {
+    Long productId;
+    int quantity;
 }

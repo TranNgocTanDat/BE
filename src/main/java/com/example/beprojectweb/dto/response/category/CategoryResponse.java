@@ -1,5 +1,6 @@
 package com.example.beprojectweb.dto.response.category;
 
+import com.example.beprojectweb.dto.response.product.ProductResponse;
 import com.example.beprojectweb.entity.Product;
 
 import lombok.*;
@@ -13,8 +14,10 @@ import java.util.List;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CategoryResponse {
-    int cate_ID;
+    Long cate_ID;
     String name;
     String description;
-    List<Product> productList;
+    String urlImage;
+    int count;
+    List<ProductResponse> productList;
 }
