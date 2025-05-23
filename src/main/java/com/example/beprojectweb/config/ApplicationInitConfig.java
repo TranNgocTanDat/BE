@@ -30,6 +30,7 @@ public class ApplicationInitConfig {
                 roles.add(Role.ADMIN.name());
                 User user = User.builder()
                         .username("admin")
+                        .email("admin@gmail.com")
                         .password(passwordEncoder.encode("admin"))
                         .roles(roles)
                         .build();

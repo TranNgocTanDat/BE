@@ -1,14 +1,14 @@
 package com.example.beprojectweb.dto.request;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationRequest {
+public class VerifyUser {
     String email;
-    String password;
+    String verificationCode;
 }

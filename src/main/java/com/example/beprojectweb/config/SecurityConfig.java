@@ -25,15 +25,24 @@ public class SecurityConfig {
 
     @Value("${jwt.signerKey}")
     String signerKey;
-    private String[] PUBLIC_ENDPOINTS = {"/users", "/auth/login", "/auth/introspect", "/categories", "/products"};
+    private String[] PUBLIC_ENDPOINTS = {"/users", "/categories", "/products", "/auth/**"};
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity, JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
         // Cấu hình quyền truy cập api
         httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users").hasRole(Role.ADMIN.name())
+                request.requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
+                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET,"/users").hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.GET,"/users/myInfo", "/cart", "/cart-items", "/cart/user/**").hasRole(Role.USER.name())
                         .requestMatchers(HttpMethod.GET, "/categories", "/categories/**", "/products").permitAll()
+                        .requestMatchers(HttpMethod.DELETE,"/users/**", "/categories/**").hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT, "/categories","/categories/**").permitAll()
                         .anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->

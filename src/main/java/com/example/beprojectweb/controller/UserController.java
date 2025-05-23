@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,12 +28,12 @@ import java.util.List;
 public class UserController {
     UserService userService;
 
-    @PostMapping
-    APIResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
-        APIResponse apiResponse = new APIResponse();
-        apiResponse.setResult(userService.createUser(request));
-        return apiResponse;
-    }
+//    @PostMapping
+//    APIResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
+//        APIResponse apiResponse = new APIResponse();
+//        apiResponse.setResult(userService.createUser(request));
+//        return apiResponse;
+//    }
 
     @GetMapping
     APIResponse<List<UserResponse>> getUsers() {
@@ -45,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    APIResponse<UserResponse> getUserById(@PathVariable String userId){
+    APIResponse<UserResponse> getUserById(@PathVariable UUID userId){
         return APIResponse.<UserResponse>builder()
                 .result(userService.getUserById(userId))
                 .build();
@@ -60,14 +61,14 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    APIResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
+    APIResponse<UserResponse> updateUser(@PathVariable UUID userId, @RequestBody UserUpdateRequest request) {
         return APIResponse.<UserResponse>builder()
                 .result(userService.updateUser(userId, request))
                 .build();
     }
 
     @DeleteMapping("/{userId}")
-    String deleteUser(@PathVariable String userId){
+    String deleteUser(@PathVariable UUID userId){
         userService.deleteUser(userId);
         return "User has been deleted";
     }

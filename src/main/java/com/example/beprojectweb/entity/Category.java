@@ -8,7 +8,8 @@ import lombok.experimental.FieldDefaults;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,9 +17,11 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int cate_ID;
+    Long cate_ID;
     String name;
     String description;
+    String urlImage;
+    int count;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @JsonManagedReference
     List<Product> productList;
