@@ -13,10 +13,11 @@ import java.io.Serializable;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode // 👉 Lombok sẽ tự generate equals() và hashCode()
+@Table(name = "game_keys")
 public class key implements Serializable {
     @Id
             @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     Long userId;
-    String key;
+    String gameKey;
 }
