@@ -1,20 +1,19 @@
-package com.example.beprojectweb.dto.request.product;
+package com.example.beprojectweb.dto.response.order;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductRequest {
+public class OrderItemResponse {
+    Long id;
+    Long productId;
     String productName;
-    String description;
     BigDecimal price;
-    int stock;
-    String img;
-    Long cateID;
 }

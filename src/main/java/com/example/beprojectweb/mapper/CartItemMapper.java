@@ -9,11 +9,8 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring" , uses = {ProductMapper.class})
 public interface CartItemMapper {
-
     CartItem toCartItem(CartItemRequest request);
-
-    @Mapping(source = "product", target = "product")
+    @Mapping(source = "totalPrice", target = "totalPrice")
     CartItemResponse toCartItemResponse(CartItem cartItem);
-
     void updateEntity(@MappingTarget CartItem cartItem, CartItemRequest request);
 }

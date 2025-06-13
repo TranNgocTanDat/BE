@@ -20,8 +20,7 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    int quantity;
-    BigDecimal unitPrice;
+    @Column(name = "total_price", nullable = false)
     BigDecimal totalPrice;
 
     @ManyToOne
@@ -32,15 +31,4 @@ public class CartItem {
     @JoinColumn(name = "cart_id")
     @JsonIgnore
     Cart cart;
-
-    @PrePersist
-    @PreUpdate
-    public void calculateTotalPrice(){
-        if(unitPrice != null) {
-            this.totalPrice = unitPrice.multiply(BigDecimal.valueOf(quantity));
-        } else {
-            this.totalPrice = BigDecimal.ZERO;
-        }
-    }
-
 }

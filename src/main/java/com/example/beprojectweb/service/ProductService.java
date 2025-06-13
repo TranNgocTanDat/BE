@@ -39,7 +39,7 @@ public class ProductService {
         }
 
         // Nếu là sản phẩm mới thì phải tìm Category và gán vào trước khi lưu
-        Category category = categoryRepository.findById(request.getCate_ID())
+        Category category = categoryRepository.findById(request.getCateID())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
         Product newProduct = productMapper.toProduct(request);
@@ -54,4 +54,11 @@ public class ProductService {
                 .map(product -> productMapper.toProductResponse(product))
                 .toList();
     }
+
+    public ProductResponse getProductById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with ID: " + id));
+        return productMapper.toProductResponse(product);
+    }
+
 }

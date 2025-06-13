@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/categories")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class CategoryController {
+public class    CategoryController {
     CategoryService categoryService;
 
     @PostMapping

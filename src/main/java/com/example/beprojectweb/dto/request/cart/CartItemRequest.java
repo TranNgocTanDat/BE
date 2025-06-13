@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CartItemRequest {
+public class  CartItemRequest {
     Long productId;
-    int quantity;
 }

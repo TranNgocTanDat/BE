@@ -31,19 +31,25 @@ public class CartService implements ICartService {
     @Override
     public Cart getOrCreateCartForUser() {
         var context = SecurityContextHolder.getContext();
-        String name = context.getAuthentication().getName();
-        User user = userRepository.findByUsername(name)
+        String username = context.getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return cartRepository.findByUser(user)
+        Cart cart = cartRepository.findByUser(user)
                 .orElseGet(() -> {
-                    Cart cart = Cart.builder()
+                    Cart newCart = Cart.builder()
                             .user(user)
                             .totalAmount(BigDecimal.ZERO)
                             .build();
-                    return cartRepository.save(cart);
+                    return cartRepository.save(newCart);
                 });
+
+        // Cập nhật lại totalAmount dựa trên cartItems
+        updateCartTotalAmount(cart);
+
+        return cart;
     }
+
 
     @Override
     @Transactional

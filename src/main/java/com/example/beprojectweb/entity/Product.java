@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,7 +29,4 @@ public class Product {
     BigDecimal price;
     int stock;
     String img;
-
-
-
 }

@@ -26,6 +26,7 @@ spring:
           starttls:
             enable: true
 
+
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -36,7 +37,7 @@ springdoc:
     display-request-duration: true
 ## tạo
 jwt:
-  signerKey: "2p7zBc3MarCTlKhTx4PkPrFCVNiwJv9tPO0wR6iwZBK31mSBK23+V2CYDXqe8pJl"
+  signerKey: "8ff7b44f6c7c7a9c8e946e6f4dbdbccdd07b260058821d2b8153247bd7cd5249"
 
 logging:
   level:

@@ -1,5 +1,6 @@
 package com.example.beprojectweb.controller;
 
+import com.example.beprojectweb.dto.response.APIResponse;
 import com.example.beprojectweb.dto.response.cart.CartResponse;
 import com.example.beprojectweb.entity.Cart;
 import com.example.beprojectweb.mapper.CartMapper;
@@ -25,16 +26,12 @@ public class CartController {
     CartMapper cartMapper;
 
     @GetMapping
-    public ResponseEntity<CartResponse> getUserCart() {
+    public APIResponse<CartResponse> getUserCart() {
         Cart cart = cartService.getOrCreateCartForUser();
         CartResponse response = cartMapper.toCartResponse(cart);
-        return ResponseEntity.ok(response);
+        return APIResponse.<CartResponse>builder()
+                .result(response)
+                .build();
     }
 
-    // Xóa item trong giỏ hàng theo id của CartItem
-    @DeleteMapping("/items/{id}")
-    public ResponseEntity<Void> removeCartItem(@PathVariable Long id) {
-        cartItemService.removeItemFromCart(id);
-        return ResponseEntity.noContent().build();
-    }
 }

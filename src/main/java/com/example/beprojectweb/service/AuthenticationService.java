@@ -72,6 +72,11 @@ public class AuthenticationService {
         //check user
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS));
 
+        // check if user is enabled (email verified)
+        if (!user.isEnabled()) {
+            throw new AppException(ErrorCode.USER_NOT_ENABLED);
+        }
+
         //sử dụng matches để kiểm tra pass nhập vào đúng với pass trong db
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
 
@@ -84,6 +89,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(token)
                 .authenticated(true)
+                .userResponse(userMapper.toUserResponse(user))
                 .build();
 
     }

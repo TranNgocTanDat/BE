@@ -22,7 +22,6 @@ public class ProductController {
     public APIResponse<ProductResponse> createProduct(@RequestBody ProductRequest request){
         APIResponse apiResponse = new APIResponse<>();
         apiResponse.setResult(productService.createProduct(request));
-
         return apiResponse;
     }
 
@@ -30,6 +29,13 @@ public class ProductController {
     public APIResponse<List<ProductResponse>> getProducts(){
         return APIResponse.<List<ProductResponse>>builder()
                 .result(productService.getProducts())
+                .build();
+    }
+
+    @GetMapping("/{productId}")
+    public APIResponse<ProductResponse> getProductById(@PathVariable Long productId) {
+        return APIResponse.<ProductResponse>builder()
+                .result(productService.getProductById(productId))
                 .build();
     }
 

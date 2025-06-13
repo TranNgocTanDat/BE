@@ -1,6 +1,7 @@
 package com.example.beprojectweb.controller;
 
 import com.example.beprojectweb.dto.request.cart.CartItemRequest;
+import com.example.beprojectweb.dto.response.APIResponse;
 import com.example.beprojectweb.dto.response.cart.CartItemResponse;
 import com.example.beprojectweb.service.cart.ICartItemService;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +17,12 @@ public class CartItemController {
 
     private final ICartItemService cartItemService;
     @PostMapping
-    public ResponseEntity<CartItemResponse> addProductToCart(
+    public APIResponse<CartItemResponse> addProductToCart(
             @RequestBody CartItemRequest request) {
-        CartItemResponse response = cartItemService.addProductToCart( request);
-        return ResponseEntity.ok(response);
+        CartItemResponse response = cartItemService.addProductToCart(request);
+        return APIResponse.<CartItemResponse>builder()
+                .result(response)
+                .build();
     }
 
     @DeleteMapping("/{id}")

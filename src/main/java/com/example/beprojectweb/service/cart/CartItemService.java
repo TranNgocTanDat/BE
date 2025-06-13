@@ -11,18 +11,14 @@ import com.example.beprojectweb.repository.CartItemRepository;
 import com.example.beprojectweb.repository.CartRepository;
 import com.example.beprojectweb.repository.ProductRepository;
 import com.example.beprojectweb.repository.UserRepository;
-import com.sun.security.auth.UserPrincipal;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,36 +29,53 @@ public class CartItemService implements ICartItemService {
     CartRepository cartRepository;
     ProductRepository productRepository;
     CartItemMapper cartItemMapper;
-    private final CartService cartService;
+    CartService cartService;
 
     @Override
     public CartItemResponse addProductToCart(CartItemRequest request) {
+        // Lấy user hiện tại
         var context = SecurityContextHolder.getContext();
-        String name = context.getAuthentication().getName();
-        User user = userRepository.findByUsername(name)
+        String username = context.getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Lấy cart cho user
         Cart cart = cartService.getOrCreateCartForUser();
 
+        // Lấy product cần thêm
         Product product = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
+        // Kiểm tra nếu game đã có trong cart thì trả luôn response cũ
         Optional<CartItem> existingItemOpt = cartItemRepository.findByCartAndProduct(cart, product);
 
-        CartItem cartItem;
         if (existingItemOpt.isPresent()) {
-            cartItem = existingItemOpt.get();
-            cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
-        } else {
-            cartItem = cartItemMapper.toCartItem(request);
-            cartItem.setCart(cart);
-            cartItem.setProduct(product);
+            // Nếu game đã tồn tại trong giỏ thì không thêm nữa
+            return cartItemMapper.toCartItemResponse(existingItemOpt.get());
         }
 
+        BigDecimal price = product.getPrice();
+        System.out.println(price);
+        if (price == null) {
+            throw new RuntimeException("Product price is null for productId: " + product.getProductId());
+        }
+
+        // Nếu chưa có thì tạo mới CartItem
+        CartItem cartItem = CartItem.builder()
+                .cart(cart)
+                .product(product)
+                .totalPrice(product.getPrice())
+                .build();
+
         CartItem saved = cartItemRepository.save(cartItem);
+        System.out.println( "totalPrice: " + saved.getTotalPrice());
+
         cartService.updateCartTotalAmount(cart);
 
-        return cartItemMapper.toCartItemResponse(saved);
+        CartItemResponse response = cartItemMapper.toCartItemResponse(saved);
+        System.out.println(" totalPrice: " + response.getTotalPrice());
+
+        return response;
     }
 
     @Override
@@ -75,6 +88,4 @@ public class CartItemService implements ICartItemService {
         cartItemRepository.delete(cartItem);
         cartService.updateCartTotalAmount(cart);
     }
-
-
 }
